@@ -1,4 +1,4 @@
-name = "shribots"
+name = "ping"
 main = "pinger.js"
 compatibility_date = "2023-12-01"
 
