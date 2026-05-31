@@ -1,42 +1,22 @@
 export default {
-  // List URLs here directly
   urlsToPing: [
     "https://example1.com",
     "https://example2.com",
-    // Add more URLs as needed
+    "https://example3.com",
   ],
 
   async scheduled(event, env, ctx) {
-    if (this.urlsToPing.length === 0) {
-      console.log('No URLs configured to ping');
-      return;
-    }
-
-    const pingPromises = this.urlsToPing.map(async (url) => {
+    for (const url of this.urlsToPing) {
       try {
         const response = await fetch(url);
-        console.log(`Pinged ${url}: ${response.status}`);
+        console.log(`✅ ${url} - ${response.status}`);
       } catch (error) {
-        console.error(`Failed to ping ${url}:`, error.message);
+        console.error(`❌ ${url} - ${error.message}`);
       }
-    });
-
-    await Promise.all(pingPromises);
+    }
   },
 
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-
-    if (url.pathname === "/") {
-      return new Response(
-        this.urlsToPing.length > 0
-          ? `Currently configured URLs to ping:\n\n${this.urlsToPing.join("\n")}`
-          : "No URLs configured to ping",
-        { status: 200, headers: { "Content-Type": "text/plain" } }
-      );
-    }
-
-    return new Response("Not Found", { status: 404 });
+  async fetch(request) {
+    return new Response("SoeMoePing is running! Pinging every minute.", { status: 200 });
   }
 };
-
