@@ -1,4 +1,4 @@
-name = "soemoeping"
+name = "ping"
 main = "pinger.js"
 compatibility_date = "2024-12-01"
 
